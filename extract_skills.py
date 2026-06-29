@@ -166,6 +166,11 @@ BLOCKED_SKILLS = {
     "predictive modelling",
     "digital twins",
     "architecture",
+    "tooling",
+    "distributed computing",
+    "distributed systems",
+    "extreme weather simulation",
+    "structural stress simulation",
 }
 
 SKILL_ALIASES = {
@@ -178,6 +183,15 @@ SKILL_ALIASES = {
     "ai": "Artificial Intelligence",
     "artificial intelligence": "Artificial Intelligence",
 }
+
+VALID_SKILLS = {
+    skill.casefold() for skill in SKILL_DICTIONARY
+}
+
+VALID_SKILLS.update(
+    alias.casefold()
+    for alias in SKILL_ALIASES.values()
+)
 
 def add_extraction_columns():
     """
@@ -393,12 +407,13 @@ def merge_skill_sources(dictionary_matches, llm_skills):
 
     for skill in dictionary_matches:
         normalized = normalize_skill(skill)
-        key = normalized.casefold()
 
-        if key in BLOCKED_SKILLS:
+        if normalized is None:
             continue
 
-        if normalized and key not in seen:
+        key = normalized.casefold()
+
+        if key not in seen:
             merged.append({
                 "skill": normalized,
                 "source": "dictionary"
@@ -410,12 +425,13 @@ def merge_skill_sources(dictionary_matches, llm_skills):
             continue
 
         normalized = normalize_skill(skill)
-        key = normalized.casefold()
 
-        if key in BLOCKED_SKILLS:
+        if normalized is None:
             continue
 
-        if normalized and key not in seen:
+        key = normalized.casefold()
+
+        if key not in seen:
             merged.append({
                 "skill": normalized,
                 "source": "llm_inferred"
@@ -522,9 +538,25 @@ def update_posting(row_id, result):
     conn.close()
 
 def normalize_skill(skill):
+    if not skill:
+        return None
+
     cleaned = skill.strip()
+
+    if not cleaned:
+        return None
+
     key = cleaned.casefold()
-    return SKILL_ALIASES.get(key, cleaned)
+
+    if key in BLOCKED_SKILLS:
+        return None
+
+    normalized = SKILL_ALIASES.get(key, cleaned)
+
+    if normalized.casefold() not in VALID_SKILLS:
+        return None
+
+    return normalized
 
 def main():
     add_extraction_columns()
