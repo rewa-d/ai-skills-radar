@@ -164,6 +164,13 @@ def get_top_skills(df, limit=20):
         inplace=True
     )
 
+    top_skills.rename(
+        columns={
+            "percentage": "% of Relevant Jobs"
+        },
+        inplace=True
+    )
+
     return top_skills
 
 
@@ -208,6 +215,11 @@ def get_skill_source_breakdown(df):
         .groupby("source")
         .size()
         .reset_index(name="count")
+    )
+
+    result = result.sort_values(
+        "count",
+        ascending=False
     )
 
     return result

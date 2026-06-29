@@ -168,6 +168,16 @@ BLOCKED_SKILLS = {
     "architecture",
 }
 
+SKILL_ALIASES = {
+    "machine learning models": "Machine Learning",
+    "machine learning": "Machine Learning",
+    "predictive modelling": "Predictive Modeling",
+    "predictive models": "Predictive Modeling",
+    "advanced analytics approaches": "Advanced Analytics",
+    "advanced analytics": "Advanced Analytics",
+    "ai": "Artificial Intelligence",
+    "artificial intelligence": "Artificial Intelligence",
+}
 
 def add_extraction_columns():
     """
@@ -382,7 +392,7 @@ def merge_skill_sources(dictionary_matches, llm_skills):
     seen = set()
 
     for skill in dictionary_matches:
-        normalized = skill.strip()
+        normalized = normalize_skill(skill)
         key = normalized.casefold()
 
         if key in BLOCKED_SKILLS:
@@ -399,7 +409,7 @@ def merge_skill_sources(dictionary_matches, llm_skills):
         if not isinstance(skill, str):
             continue
 
-        normalized = skill.strip()
+        normalized = normalize_skill(skill)
         key = normalized.casefold()
 
         if key in BLOCKED_SKILLS:
@@ -511,6 +521,10 @@ def update_posting(row_id, result):
     conn.commit()
     conn.close()
 
+def normalize_skill(skill):
+    cleaned = skill.strip()
+    key = cleaned.casefold()
+    return SKILL_ALIASES.get(key, cleaned)
 
 def main():
     add_extraction_columns()
