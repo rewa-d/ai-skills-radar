@@ -273,3 +273,83 @@ def get_relevance_breakdown(df):
     ]
 
     return result
+
+def load_skill_snapshots():
+    conn = sqlite3.connect(DB_NAME)
+
+    df = pd.read_sql_query(
+        """
+        SELECT
+            snapshot_date,
+            skill,
+            frequency,
+            percentage
+        FROM skill_snapshots
+        ORDER BY snapshot_date ASC, frequency DESC
+        """,
+        conn
+    )
+
+    conn.close()
+
+    return df
+
+def get_top_companies(df, limit=10):
+    clean_df = df[
+        (df["is_relevant"] == 1) &
+        (df["company"].notna())
+    ]
+
+    result = (
+        clean_df["company"]
+        .value_counts()
+        .head(limit)
+        .reset_index()
+    )
+
+    result.columns = ["company", "count"]
+    return result
+
+
+def get_top_locations(df, limit=10):
+    clean_df = df[
+        (df["is_relevant"] == 1) &
+        (df["location"].notna())
+    ]
+
+    result = (
+        clean_df["location"]
+        .value_counts()
+        .head(limit)
+        .reset_index()
+    )
+
+    result.columns = ["location", "count"]
+    return result
+
+
+def get_salary_by_search_term(df):
+    salary_df = df[
+        (df["is_relevant"] == 1) &
+        (
+            df["salary_min"].notna() |
+            df["salary_max"].notna()
+        )
+    ].copy()
+
+    if salary_df.empty:
+        return salary_df
+
+    salary_df["avg_salary"] = salary_df[
+        ["salary_min", "salary_max"]
+    ].mean(axis=1)
+
+    result = (
+        salary_df
+        .groupby("search_term")["avg_salary"]
+        .mean()
+        .round(0)
+        .reset_index()
+    )
+
+    return result
