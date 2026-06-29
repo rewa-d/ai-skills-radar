@@ -155,7 +155,7 @@ def get_top_skills(df, limit=20):
         top_skills["frequency"]
         / relevant_count
         * 100
-    ).round(2)
+    ).round(1)
 
     top_skills.rename(
         columns={

@@ -157,6 +157,17 @@ DOMAIN_TERMS = [
     "ELT",
 ]
 
+BLOCKED_SKILLS = {
+    "ai",
+    "advanced analytics",
+    "advanced analytics approaches",
+    "machine learning models",
+    "predictive models",
+    "predictive modelling",
+    "digital twins",
+    "architecture",
+}
+
 
 def add_extraction_columns():
     """
@@ -374,6 +385,9 @@ def merge_skill_sources(dictionary_matches, llm_skills):
         normalized = skill.strip()
         key = normalized.casefold()
 
+        if key in BLOCKED_SKILLS:
+            continue
+
         if normalized and key not in seen:
             merged.append({
                 "skill": normalized,
@@ -387,6 +401,9 @@ def merge_skill_sources(dictionary_matches, llm_skills):
 
         normalized = skill.strip()
         key = normalized.casefold()
+
+        if key in BLOCKED_SKILLS:
+            continue
 
         if normalized and key not in seen:
             merged.append({

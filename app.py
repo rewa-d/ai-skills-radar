@@ -172,7 +172,7 @@ else:
         hide_index=True
     )
 
-st.subheader("Sample Job Data")
+st.subheader("Job Postings")
 
 show_irrelevant_in_table = st.checkbox(
     "Show irrelevant jobs in table",
