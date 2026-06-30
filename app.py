@@ -42,7 +42,7 @@ def format_skills(skills_text):
 
 
 st.set_page_config(
-    page_title="AI Skills Radar",
+    page_title="st Radar",
     layout="wide"
 )
 
