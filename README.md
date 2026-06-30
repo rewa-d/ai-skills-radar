@@ -4,7 +4,7 @@
 
 ---
 
-## 📖 Overview
+## Overview
 
 AI Skills Radar automatically collects live Australian AI and Data job postings, extracts technical skills using a hybrid **Dictionary + Local LLM** pipeline, filters irrelevant jobs, and presents interactive market intelligence through a Streamlit dashboard.
 
@@ -18,7 +18,7 @@ The project answers questions such as:
 
 ---
 
-# 📷 Dashboard Preview
+# Dashboard Preview
 
 ## Dashboard Overview
 
