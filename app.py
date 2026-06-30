@@ -46,6 +46,7 @@ st.set_page_config(
     layout="wide"
 )
 
+
 st.title("AI Skills Radar")
 st.subheader("Live Australian AI & Data Job Market Intelligence")
 
