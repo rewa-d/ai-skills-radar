@@ -133,7 +133,7 @@ ai-skills-radar/
 Clone the repository:
 
 ```bash
-git clone https://github.com/<your-github-username>/ai-skills-radar.git
+git clone https://github.com/rewa-d/ai-skills-radar.git
 cd ai-skills-radar
 ```
 
