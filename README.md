@@ -1,20 +1,55 @@
 # AI Skills Radar
 
-> An end-to-end AI job market intelligence platform that analyzes live Australian AI & Data job postings to identify in-demand skills, hiring trends, salary insights, and market demand.
+[![Python](https://img.shields.io/badge/Python-3.12-blue)]()
+[![Streamlit](https://img.shields.io/badge/Streamlit-Live-red)]()
+[![AWS EC2](https://img.shields.io/badge/AWS-EC2-orange)]()
+[![SQLite](https://img.shields.io/badge/SQLite-Database-blue)]()
+
+> An end-to-end AI job market intelligence platform that analyzes Australian AI & Data job postings to identify in-demand skills, hiring trends, salary insights, and market demand.
+
+## Live Demo
+
+https://ai-skills-radar-rewa.streamlit.app/
+
+## Deployment
+
+**Public Demo**
+- Streamlit Community Cloud
+
+**Production Deployment**
+- AWS EC2
+- Ubuntu Linux
+- Nginx Reverse Proxy
+- systemd Service
+- Elastic IP
 
 ---
 
-## Overview
+# Overview
 
-AI Skills Radar automatically collects live Australian AI and Data job postings, extracts technical skills using a hybrid **Dictionary + Local LLM** pipeline, filters irrelevant jobs, and presents interactive market intelligence through a Streamlit dashboard.
+AI Skills Radar automatically collects Australian AI and Data job postings, extracts technical skills using a hybrid Dictionary + Local LLM pipeline, filters irrelevant roles, and presents interactive market intelligence through a Streamlit dashboard.
 
-The project answers questions such as:
+The platform answers questions such as:
 
 - Which AI skills are currently most in demand?
 - Which companies are hiring the most?
-- Which cities have the highest demand?
-- What salaries are employers offering?
-- How do skill trends change over time?
+- Which Australian cities have the highest demand?
+- What salary ranges are employers offering?
+- Which skills are trending over time?
+- What proportion of jobs are Junior, Mid, and Senior level?
+
+---
+
+# Project Highlights
+
+- End-to-end AI job market intelligence platform
+- Hybrid Dictionary + Local LLM skill extraction
+- AI/Data role relevance classification
+- Seniority detection
+- Interactive Streamlit dashboard
+- Historical skill trend tracking
+- Public deployment on Streamlit Community Cloud
+- Production deployment on AWS EC2
 
 ---
 
@@ -40,35 +75,56 @@ The project answers questions such as:
 
 # Key Features
 
-- Collects live Australian AI & Data job postings using the Adzuna Jobs API. 
-- Extracts technical skills using a hybrid Dictionary + Local LLM (Qwen via Ollama) pipeline.
-- Classifies job relevance to separate technical AI/Data roles from unrelated postings.
-- Detects seniority levels (Junior, Mid, Senior).
-- Interactive Streamlit dashboard with real-time analytics.
-- Salary analysis by job category.
-- Hiring company and employer insights.
-- Hiring location analysis across Australia.
-- Historical skill trend tracking through daily snapshots.
-- Export filtered job listings as CSV.
+### Data Collection
+
+- Collects live Australian AI & Data job postings from the Adzuna Jobs API
+- Stores structured job data in SQLite
+- Supports repeated data collection for updated market insights
+
+### AI Skill Extraction
+
+- Hybrid Dictionary + Local LLM (Qwen via Ollama)
+- Technical skill normalization
+- Duplicate skill removal
+- Alias mapping
+
+### Intelligent Classification
+
+- Relevant vs irrelevant AI/Data role classification
+- Junior, Mid and Senior role detection
+
+### Interactive Dashboard
+
+- Market overview
+- Top in-demand technical skills
+- Hiring companies
+- Hiring locations
+- Salary insights
+- Historical skill trends
+- CSV export
 
 ---
 
-## Tech Stack
+# Tech Stack
 
 | Category | Technologies |
 |-----------|--------------|
 | Programming Language | Python 3 |
 | Data Processing | Pandas |
 | Database | SQLite |
-| Data Visualization | Plotly |
 | Dashboard | Streamlit |
-| Local LLM | Ollama (Qwen 2.5 7B) |
-| Job Data Source | Adzuna Jobs API |
-| Version Control | Git, GitHub |
+| Visualization | Plotly |
+| Local LLM | Ollama + Qwen 2.5 7B |
+| Job API | Adzuna Jobs API |
+| Public Hosting | Streamlit Community Cloud |
+| Cloud Deployment | AWS EC2 (Ubuntu Linux) |
+| Reverse Proxy | Nginx |
+| Process Manager | systemd |
+| Version Control | Git & GitHub |
 
 ---
 
-## Project Architecture
+# Project Architecture
 
 ```text
                     Adzuna Jobs API
@@ -89,75 +145,110 @@ The project answers questions such as:
        analytics.py
             │
             ▼
-      Streamlit Dashboard
+     Streamlit Dashboard
+            │
+            ▼
+  Streamlit Cloud / AWS EC2
 ```
 
 ---
 
-## Data Pipeline
+# Data Pipeline
 
-1. Fetch live AI and Data job postings from the Adzuna Jobs API.
-2. Store raw job postings in a SQLite database.
-3. Match explicit technical skills using a curated dictionary.
-4. Use a local Qwen 2.5 model through Ollama to identify additional technical skills, classify seniority, and determine role relevance.
-5. Merge and normalize dictionary- and LLM-extracted skills.
-6. Save processed results back to the database.
-7. Generate daily historical skill snapshots.
-8. Visualize hiring trends and market insights through an interactive Streamlit dashboard.
+1. Fetch live AI & Data job postings from the Adzuna Jobs API.
+2. Store raw job postings in SQLite.
+3. Match predefined technical skills using a curated dictionary.
+4. Use a local Qwen model via Ollama to:
+   - Extract additional technical skills
+   - Classify seniority
+   - Determine job relevance
+5. Merge and normalize extracted skills.
+6. Store enriched results back into SQLite.
+7. Generate daily historical snapshots.
+8. Display interactive market intelligence through Streamlit.
 
 ---
 
-## Project Structure
+# Cloud Deployment
+
+## Streamlit Community Cloud
+
+The public dashboard is deployed on Streamlit Community Cloud.
+
+Live Demo:
+
+https://ai-skills-radar-rewa.streamlit.app/
+
+---
+
+## AWS EC2
+
+The project was also deployed using a production-style AWS environment featuring:
+
+- Ubuntu Linux
+- Nginx Reverse Proxy
+- systemd Service
+- Elastic IP
+- Python Virtual Environment
+- SSH Deployment
+
+This deployment demonstrates Linux server administration, cloud deployment and production web application hosting.
+
+---
+
+# Project Structure
 
 ```text
 ai-skills-radar/
 │
-├── app.py                     # Streamlit dashboard
-├── analytics.py               # Dashboard analytics
-├── extract_skills.py          # Hybrid skill extraction
-├── fetch_jobs.py              # Job collection from Adzuna
-├── save_snapshot.py           # Historical skill snapshots
-├── fix_existing_unclear.py    # Retry extraction for previous failures
-├── reextract_empty_skills.py  # Reprocess empty skill rows
-├── job_postings.db            # SQLite database
-├── screenshots/
+├── app.py
+├── analytics.py
+├── extract_skills.py
+├── fetch_jobs.py
+├── save_snapshot.py
+├── reextract_empty_skills.py
+├── sample_job_postings.db
 ├── requirements.txt
 ├── .env.example
+├── screenshots/
+│   ├── dashboard-overview.png
+│   ├── market-insights.png
+│   └── details-table.png
 └── README.md
 ```
 
 ---
 
-## Installation
+# Installation
 
-Clone the repository:
+Clone the repository
 
 ```bash
 git clone https://github.com/rewa-d/ai-skills-radar.git
 cd ai-skills-radar
 ```
 
-Create a virtual environment:
+Create a virtual environment
 
 ```bash
 python -m venv venv
 ```
 
-Activate the environment:
+Activate it
 
-**Windows**
+### Windows
 
 ```bash
 venv\Scripts\activate
 ```
 
-**macOS / Linux**
+### macOS / Linux
 
 ```bash
 source venv/bin/activate
 ```
 
-Install the required packages:
+Install dependencies
 
 ```bash
 pip install -r requirements.txt
@@ -165,40 +256,38 @@ pip install -r requirements.txt
 
 ---
 
-## Environment Variables
+# Environment Variables
 
-Create a `.env` file in the project root.
+Create a `.env` file:
 
 ```env
 ADZUNA_APP_ID=your_app_id
 ADZUNA_APP_KEY=your_app_key
 ```
 
-The project uses the Adzuna Jobs API to fetch live Australian AI and Data job postings.
-
 ---
 
-## Running the Project
+# Running the Project
 
-### 1. Fetch live job postings
+Fetch job postings
 
 ```bash
 python fetch_jobs.py
 ```
 
-### 2. Extract skills and classify jobs
+Extract skills
 
 ```bash
 python extract_skills.py
 ```
 
-### 3. Save a daily skill snapshot
+Save historical snapshots
 
 ```bash
 python save_snapshot.py
 ```
 
-### 4. Launch the dashboard
+Launch the dashboard
 
 ```bash
 streamlit run app.py
@@ -206,49 +295,88 @@ streamlit run app.py
 
 ---
 
-## Dashboard Features
+# Dashboard Features
 
-The interactive Streamlit dashboard provides:
-
-- AI and Data job market overview
-- Top in-demand technical skills
+- AI & Data job market overview
+- Top technical skills
 - Seniority distribution
-- Relevant vs. irrelevant role analysis
+- Relevant vs irrelevant role analysis
 - Hiring company insights
 - Hiring location insights
-- Salary analysis by job category
-- Skill extraction source breakdown (Dictionary vs. LLM)
-- Historical skill trend tracking
-- Downloadable filtered job listings
+- Salary analytics
+- Historical skill trends
+- Download filtered job listings
 
 ---
 
-## Challenges & Solutions
+# Challenges & Solutions
 
 | Challenge | Solution |
 |-----------|----------|
-| LLM responses occasionally contained malformed JSON | Implemented automatic retry logic and fallback handling for failed extractions. |
-| Duplicate skills from dictionary and LLM extraction | Added normalization, alias mapping, and deduplication before storing results. |
-| Generic AI terms reduced dashboard quality | Introduced skill validation and filtering to retain only meaningful technical skills. |
-| Non-technical roles appeared in search results | Added LLM-based relevance classification to separate AI/Data roles from unrelated jobs. |
-| Tracking market trends over time | Implemented daily SQLite snapshots to capture historical skill demand. |
+| LLM responses occasionally returned malformed JSON | Implemented retry logic and validation. |
+| Duplicate skills from dictionary and LLM extraction | Added normalization, alias mapping and deduplication. |
+| Generic AI terms reduced dashboard quality | Added filtering and validation rules. |
+| Non-technical roles appeared in results | Implemented LLM-based relevance classification. |
+| Historical trend analysis | Added daily SQLite snapshots. |
+| Cloud deployment | Deployed using Streamlit Community Cloud and AWS EC2. |
 
 ---
 
-## Future Improvements
+# Skills Demonstrated
 
-- Deploy the dashboard using Streamlit Community Cloud.
-- Automate daily job collection and snapshot creation.
-- Support multiple countries and job markets.
-- Add semantic skill clustering using embeddings.
-- Forecast future skill demand trends.
-- Generate downloadable PDF reports.
-- Integrate additional job providers beyond Adzuna.
+- Python
+- SQL
+- SQLite
+- Pandas
+- Streamlit
+- Plotly
+- Prompt Engineering
+- Local LLM Integration
+- Ollama
+- REST API Integration
+- AWS EC2
+- Ubuntu Linux
+- Nginx
+- systemd
+- Git
+- GitHub
+- Data Visualization
+- Cloud Deployment
 
 ---
 
-## License
+# Future Improvements
 
-This project was developed for educational and portfolio purposes.
+- Automated daily job refresh
+- Docker containerization
+- GitHub Actions CI/CD
+- HTTPS with Let's Encrypt
+- Multi-country job analysis
+- Semantic skill clustering
+- Skill demand forecasting
+- REST API
+- User authentication
 
 ---
+
+# About
+
+This project was built as part of my portfolio while pursuing a **Master of Artificial Intelligence at RMIT University**. It demonstrates end-to-end AI application development—from collecting live job data and LLM-powered skill extraction to interactive visualization and deployment on both Streamlit Community Cloud and AWS EC2.
+
+---
+
+# Author
+
+**Rewa Dambal**
+
+Master of Artificial Intelligence  
+RMIT University
+
+- GitHub: https://github.com/rewa-d
+- LinkedIn: https://www.linkedin.com/in/rewa-dambal
+
+---
+
+# Support
+
+If you found this project useful or interesting, consider starring the repository.
