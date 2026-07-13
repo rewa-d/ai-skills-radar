@@ -2,7 +2,13 @@ import json
 import sqlite3
 import pandas as pd
 
-DB_NAME = "job_postings.db"
+import os
+
+DB_NAME = (
+    "job_postings.db"
+    if os.path.exists("job_postings.db")
+    else "sample_job_postings.db"
+)
 
 
 def load_postings():
